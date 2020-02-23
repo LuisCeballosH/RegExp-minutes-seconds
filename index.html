@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="time" type="text" onkeypress="return number(event, this)" onpaste="return false" maxlength="5"
+        onchange="formatTime()">
+    <input type="text">
+    <script>
+        function formatTime() {
+            var time = document.getElementById('time').value
+            if (Number(time)) {
+                time = time.padStart(2, '0') + ':00';
+                document.getElementById('time').value = time
+            } else {
+                var arrayTime = time.split(':');
+                document.getElementById('time').value = `${arrayTime[0].padStart(2, '0')}:${arrayTime[1].padStart(2, '0')}`
+            }
+        }
+        function number(e, input) {
+            var key = e.keyCode || e.which;
+            var character = String.fromCharCode(key);
+            var inputValue = input.value + character;
+            if ((key >= 48 && key <= 57) || 58) {
+                return filter(inputValue);
+            }
+            return false;
+        }
+        function filter(value) {
+            if (value.length <= 2) {
+                if (Number(value)) {
+                    var regex = /^([0-5]?\d)$/;
+                } else {
+                    var regex = /^(\d\:)$/;
+                }
+            } else {
+                var regex = /([0-5]?\d\:([0-5]?\d?))$/;
+            }
+
+            if (regex.test(value)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
